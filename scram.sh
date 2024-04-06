@@ -11,13 +11,13 @@ function scramble_line {
 }
 
 if [ -p /dev/stdin ]; then
-    while IFS= read name; do
-	scramble_line "$name"
-    done
+	while IFS= read -r name; do
+		scramble_line "$name"
+	done
 else
-    if [ ! -z "$1" ]; then
-	scramble_line "$1"
-    else
-	echo "no input given"
-    fi
+	if [ ! -z "$1" ]; then
+		scramble_line "$1"
+	else
+		echo "no input given"
+	fi
 fi
