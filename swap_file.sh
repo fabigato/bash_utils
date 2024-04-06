@@ -12,6 +12,6 @@ fi
 readarray -t lines < "$file"  # read whole file in memory, otherwise you can´t update line by line while reading
 swapped_lines=()
 for line in "${lines[@]}"; do
-    swapped_lines+=( "$(echo "$line" | ./scram.sh)" )
+    swapped_lines+=( "$(echo "$line" | scram.sh)" )
 done
 printf '%s\n' "${swapped_lines[@]}" >"$file"
