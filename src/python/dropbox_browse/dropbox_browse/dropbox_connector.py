@@ -1,5 +1,5 @@
 import argparse
-from dropbox.dropbox import Dropbox
+from dropbox.dropbox_client import Dropbox
 from os.path import splitext, basename, join, split
 from tqdm import tqdm
 from os import environ
@@ -59,7 +59,7 @@ def download(files, destination):
             fh.write(res.content)
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     base = args.base if args.base else '/misc/port'
     files = get_files_and_folders(base, db_con)
@@ -75,4 +75,7 @@ if __name__ == "__main__":
             results = translate_names(results)
         for file in results:
             print(file)
+
+if __name__ == "__main__":
+    main()
     exit(0)
