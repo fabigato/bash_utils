@@ -1,6 +1,9 @@
 #!/bin/bash
 
 . ../fnscram.sh
+#thispath=$(readlink -f "$0")
+#thisfolder="$(dirname $thispath)"
+#. "$(dirname $thisfolder)/fnscram.sh"
 
 test_fscramble() {
   result=$(SCRAM_CHARS='file' fscramble "file.ext")

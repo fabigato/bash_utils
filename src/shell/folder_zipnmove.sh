@@ -24,32 +24,34 @@ function _main {
     echo "Passwords don't match"
     exit
   fi
-  scramble_line "$@" "$password"
+  loop_scramfolder_zip_and_move "$@" "$password"
 }
 #######actual script######
-function scramfolder_zip_and_move{
-    scrambled=$(scram_ext.sh "$1")
+function scramfolder_zip_and_move {
+    scrambled=$(scram_files.sh "$1")
     scram_files.sh "$1"
     cd "$scrambled"
     echo "currently in $(pwd)"
-    current="$(pwd)"
-    parent=$(basename "$current")
+    local current="$(pwd)"
+    local parent=$(basename "$current")
     echo parent is $parent
-    zip -r -P "$password" "$parent.zip" .
+    zip -r -P "$4" "$parent.zip" .
     mv "$parent.zip" $2
     cd ..
+    mv "$1" $3
 }
+
 function loop_scramfolder_zip_and_move {
   cd "$1"
   password="$4"
   for f in */
   do
-    scrambled=scramfolder_zip_and_move "$f" "$2" "$password"
+    scramfolder_zip_and_move "$f" "$2" "$3", "$password"
     echo "these files exist: $(ls)"
     echo "about to scramble $scrambled"
     scram_files.sh "$scrambled"
     echo "now about to move $f"
-    mv "$f" $3
+
   done
   echo "done with this"
 }
