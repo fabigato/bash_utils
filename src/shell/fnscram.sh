@@ -2,6 +2,7 @@
 
 #################################################################################################################
 # File name scram. Calls scram.sh only on a filename. Returns the scrambled filename with unscrambled extension #
+# When called with the -p option, scrambles the whole file path provided
 #################################################################################################################
 
 function fscramble {
@@ -13,7 +14,6 @@ function fscramble {
 }
 
 function fscramble_whole_path {
-    xbase="$(basename "$1")" #xbase=${fullname##*/}
     xfext=$([[ $1 = *.* ]] && printf %s ".${1##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
     xpref="${1%.*}"
     scrambled="$(echo "$xpref" | scram.sh)"
