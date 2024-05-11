@@ -27,6 +27,8 @@ test_fscramble_whole_path() {
   assertEquals "elif.fxt.ext2" "$result"
   result=$(SCRAM_CHARS='pfilet' fscramble_whole_path "path/to/file.ext")
   assertEquals "$result" "taph/po/elif.ext"
+  result=$(SCRAM_CHARS='pfilet' fscramble_whole_path "path/to/file.ext")
+  assertEquals "$result" "taph/po/elif.ext"
 }
 
 # Load shUnit2.

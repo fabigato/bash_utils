@@ -20,11 +20,25 @@ function fscramble_whole_path {
     printf "$scrambled$xfext\n"
 }
 
+function fscramble_keep_path {
+    xpath="$(dirname "$1")" #xpath=${fullname%/*} not good in edge conditions, gives filename when path is empty
+    xbase="$(basename "$1")" #xbase=${fullname##*/}
+    xfext=$([[ $xbase = *.* ]] && printf %s ".${xbase##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
+    xpref="${xbase%.*}"
+    scrambled="$(echo "$xpref" | scram.sh)"
+    destination="$xpath/$scrambled$xfext"
+    printf "$destination\n"
+}
+
 function _main {
-    while getopts ":p" opt; do
+    while getopts ":pk" opt; do
         case $opt in
       p)
           whole_path=true
+          shift $((OPTIND-1))
+          ;;
+      k)
+          keep=true
           shift $((OPTIND-1))
           ;;
       \?)
@@ -34,23 +48,31 @@ function _main {
     done
 
     if [ -p /dev/stdin ]; then
-        while IFS= read name; do
-      if [ "$whole_path" = true ] ; then
-          fscramble_whole_path "$name"
-      else
-          fscramble "$name"
-      fi
-        done
-    else
-        if [ ! -z "$1" ]; then
-      if [ "$whole_path" = true ] ; then
-          fscramble_whole_path "$1"
-      else
-          fscramble "$1"
-      fi
+      while IFS= read name; do
+        if [ "$keep" = true ] ; then
+           fscramble_keep_path "$name"
         else
-      echo "no input given"
+          if [ "$whole_path" = true ] ; then
+              fscramble_whole_path "$name"
+          else
+              fscramble "$name"
+          fi
         fi
+      done
+    else
+      if [ ! -z "$1" ]; then
+        if [ "$keep" = true ] ; then
+          fscramble_keep_path "$1"
+        else
+          if [ "$whole_path" = true ] ; then
+              fscramble_whole_path "$1"
+          else
+              fscramble "$1"
+          fi
+        fi
+      else
+        echo "no input given"
+      fi
     fi
 }
 

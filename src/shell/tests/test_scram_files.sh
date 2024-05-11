@@ -22,15 +22,15 @@ tearDown() {
 
 test_fscramble() {
   SCRAM_CHARS='file' fscramble "file.ext"
-  assertEquals "./elif.ext" "$destination"
+  assertEquals "./elif.ext" "$result"
   SCRAM_CHARS='file' fscramble "file"
-  assertEquals "./elif" "$destination"
+  assertEquals "./elif" "$result"
   SCRAM_CHARS='file' fscramble "file."
-  assertEquals "./elif." "$destination"
+  assertEquals "./elif." "$result"
   SCRAM_CHARS='file' fscramble "file.ext.ext2"
-  assertEquals "./elif.fxt.ext2" "$destination"
+  assertEquals "./elif.fxt.ext2" "$result"
   SCRAM_CHARS='pfilet' fscramble "path/to/file.ext.ext2"
-  assertEquals "path/to/elif.fxp.ext2" "$destination"
+  assertEquals "path/to/elif.fxp.ext2" "$result"
 }
 
 # Load shUnit2.
