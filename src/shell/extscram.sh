@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #################################################################################################################
-# File name scram. Calls scram.sh only on a filename. Returns the scrambled filename with unscrambled extension #
+# Extension scram. Calls scram.sh only on a filename. Returns the scrambled filename with unscrambled extension #
 # When called with the -p option, scrambles the whole file path provided
 #################################################################################################################
 
