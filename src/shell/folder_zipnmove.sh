@@ -4,6 +4,7 @@
 # zips every folder in a given path in its own zip archive.                              #
 # Every zipped file will have a name identical to the path it zipped plus.zip extension. #
 # Prompts for a password to encrypt every zip file with                                  #
+# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                              #
 ##########################################################################################
 
 #######basic checks#######

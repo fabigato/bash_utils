@@ -1,11 +1,18 @@
 #!/bin/bash
+
+##############################################################################
+# Applies scram to the whole content of a given text file.                   #
+# Provide the text file through either command line or the SWAP_FILE env var #
+# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                  #
+##############################################################################
+
 if [ ! -z "$1" ]; then
 	file="$1"
 else
-	if [ ! -z "$PORT_INDEX" ]; then
-		file="$PORT_INDEX"
+	if [ ! -z "$SWAP_FILE" ]; then
+		file="$SWAP_FILE"
 	else
-		echo either provide a file name or set the PORT_INDEX env variable
+		echo either provide a file name or set the SWAP_FILE env variable
 		exit 1
 	fi
 fi

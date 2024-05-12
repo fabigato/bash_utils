@@ -2,7 +2,8 @@
 
 #################################################################################################################
 # Extension scram. Calls scram.sh only on a filename. Returns the scrambled filename with unscrambled extension #
-# When called with the -p option, scrambles the whole file path provided
+# When called with the -p option, scrambles the whole file path provided                                        #
+# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                                                     #
 #################################################################################################################
 
 function fscramble {

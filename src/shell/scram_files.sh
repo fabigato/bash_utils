@@ -3,6 +3,7 @@
 #################################################################################################################
 # Recursively scram files. Gets all files in a path and scrams only the file name, not the whole path nor the   #
 # extension                                                                                                     #
+# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                                                     #
 #################################################################################################################
 
 
