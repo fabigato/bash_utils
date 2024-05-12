@@ -2,7 +2,6 @@
 
 . ../folder_zipnmove.sh
 setUp() {
-  echo "sono a $(pwd)"
   mkdir -p root/a/
   mkdir -p root/b/
   touch root/a/filea1
@@ -10,7 +9,6 @@ setUp() {
   touch root/b/fileb1
   mkdir -p zips
   mkdir -p files
-  tree root
 }
 
 tearDown() {
@@ -24,6 +22,7 @@ tearDown() {
 
 test_scramfolder_zip_and_move() {
   scramfolder_zip_and_move root/a zips files secret
+  assertTrue 'OK' "[ -r zips/s.zip ]"
 }
 
 # Load shUnit2.

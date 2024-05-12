@@ -1,6 +1,11 @@
 #!/bin/bash
-#zips every folder in a given path in its own zip archive.
-# Every zipped file will have a name identical to the path it zipped plus.zip extension. Prompts for a password to encrypt every zip file with
+
+##########################################################################################
+# zips every folder in a given path in its own zip archive.                              #
+# Every zipped file will have a name identical to the path it zipped plus.zip extension. #
+# Prompts for a password to encrypt every zip file with                                  #
+##########################################################################################
+
 #######basic checks#######
 function _main {
   if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]
@@ -28,17 +33,17 @@ function _main {
 }
 #######actual script######
 function scramfolder_zip_and_move {
-    scrambled=$(scram_files.sh "$1")
-    scram_files.sh "$1"
+    startingpoint="$(pwd)"
+    scrambled=$(extscram.sh -k "$1")
+    mv "$1" "$scrambled"
+    ~/repos/bash_utils/src/shell/scram_files.sh "$scrambled"
     cd "$scrambled"
-    echo "currently in $(pwd)"
     local current="$(pwd)"
     local parent=$(basename "$current")
-    echo parent is $parent
     zip -r -P "$4" "$parent.zip" .
-    mv "$parent.zip" $2
-    cd ..
-    mv "$1" $3
+    mv "$parent.zip" "$startingpoint/$2"
+    cd "$startingpoint"
+    mv "$scrambled" $3
 }
 
 function loop_scramfolder_zip_and_move {
