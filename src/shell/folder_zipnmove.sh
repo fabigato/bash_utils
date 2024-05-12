@@ -36,7 +36,7 @@ function scramfolder_zip_and_move {
     startingpoint="$(pwd)"
     scrambled=$(extscram.sh -k "$1")
     mv "$1" "$scrambled"
-    ~/repos/bash_utils/src/shell/scram_files.sh "$scrambled"
+    scram_files.sh "$scrambled"
     cd "$scrambled"
     local current="$(pwd)"
     local parent=$(basename "$current")
