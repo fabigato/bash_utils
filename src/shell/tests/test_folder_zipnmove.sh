@@ -21,8 +21,10 @@ tearDown() {
 }
 
 test_scramfolder_zip_and_move() {
-  scramfolder_zip_and_move root/a zips files secret
-  assertTrue 'OK' "[ -r zips/s.zip ]"
+  SCRAM_CHARS='az' scramfolder_zip_and_move root/a zips files secret
+  assertTrue 'OK' "[ -r zips/z.zip ]"
+  assertTrue 'OK' "[ -r files/z/filez1 ]"
+  assertTrue 'OK' "[ -r files/z/filez2 ]"
 }
 
 # Load shUnit2.
