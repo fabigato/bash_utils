@@ -25,6 +25,10 @@ test_scramfolder_zip_and_move() {
   assertTrue 'OK' "[ -r zips/z.zip ]"
   assertTrue 'OK' "[ -r files/z/filez1 ]"
   assertTrue 'OK' "[ -r files/z/filez2 ]"
+  # test zip content is correct and with the right password
+  unzip_result="$(unzip -t -P secret zips/z.zip)"
+  assertSame "filez1 OK" "$(echo $unzip_result | cut -d ' ' -f 4,5)"
+  assertSame "filez2 OK" "$(echo $unzip_result | cut -d ' ' -f 7,8)"
 }
 
 # Load shUnit2.
