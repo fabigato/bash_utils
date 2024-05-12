@@ -43,7 +43,7 @@ function scramfolder_zip_and_move {
     zip -r -P "$4" "$parent.zip" .
     mv "$parent.zip" "$startingpoint/$2"
     cd "$startingpoint"
-    mv "$scrambled" $3
+    mv "$scrambled" "$3"
 }
 
 function loop_scramfolder_zip_and_move {

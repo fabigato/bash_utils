@@ -24,7 +24,7 @@ function _main {
       fscramble "$fullname"
   else #if argument is a folder, scramble recursively inside it
       export -f fscramble
-      find "$fullname" -depth -exec bash -c 'fscramble "$@"' bash {} +
+      find "$fullname" -depth -type f -exec bash -c 'fscramble "{}"' \;
       # find "$fullname" -depth | while read f is bad since the pipe means
       # there is an stdin for exscram.sh so it will read wrong args
       # plus iterating on find's output is bad practice due to special
