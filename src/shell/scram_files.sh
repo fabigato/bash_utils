@@ -9,7 +9,7 @@
 
 function fscramble { #takes a string and scrambles it according to a fixed mapping
     result=$(extscram.sh -k "$1")
-    mv "$1" "$result"
+    [[ $(realpath "$1") != $(realpath "$result") ]] && mv "$1" "$result"
 }
 
 function _main {

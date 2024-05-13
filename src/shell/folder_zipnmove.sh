@@ -34,32 +34,42 @@ function _main {
 }
 #######actual script######
 function scramfolder_zip_and_move {
-    startingpoint="$(pwd)"
+    local startingpoint="$(pwd)"
     scrambled=$(extscram.sh -k "$1")
-    mv "$1" "$scrambled"
+    [[ $(realpath "$1") != $(realpath "$scrambled") ]] && mv "$1" "$scrambled"  # mv only if scrambled name changed
     scram_files.sh "$scrambled"
     cd "$scrambled"
     local current="$(pwd)"
     local parent=$(basename "$current")
-    zip -r -P "$4" "$parent.zip" .
-    mv "$parent.zip" "$startingpoint/$2"
+    zipfile="$parent.zip"
+    zip -r -P "$4" "$startingpoint/$zipfile" .
     cd "$startingpoint"
-    mv "$scrambled" "$3"
+}
+
+function move {
+  # handle both relative and absolute mv destinations
+  # usage:
+  # move file-to-move destination root
+  # where root is prepended to destination if destination is not absolute
+  case $2 in
+    /*) mv "$1" "$2" ;;  # zip destination is absolute
+    *)  mv "$1" "$3/$2" ;;  # zip destination is relative
+  esac
 }
 
 function loop_scramfolder_zip_and_move {
+  local startingpoint="$(pwd)"
   cd "$1"
-  password="$4"
+  local password="$4"
   for f in */
   do
     scramfolder_zip_and_move "$f" "$2" "$3", "$password"
-    echo "these files exist: $(ls)"
-    echo "about to scramble $scrambled"
-    scram_files.sh "$scrambled"
-    echo "now about to move $f"
+    move $zipfile $2 $startingpoint
+    move $scrambled $3 $startingpoint
 
   done
-  echo "done with this"
+  cd "$startingpoint"
+  echo "done"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

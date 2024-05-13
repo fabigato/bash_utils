@@ -16,8 +16,7 @@ tearDown() {
   rm elif
   rm elif.
   rm elif.fxt.ext2
-  rm -r path/*
-  rmdir path
+  rm -r path/
 }
 
 test_fscramble() {
