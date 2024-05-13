@@ -64,8 +64,8 @@ function loop_scramfolder_zip_and_move {
   for f in */
   do
     scramfolder_zip_and_move "$f" "$2" "$3", "$password"
-    move $zipfile $2 $startingpoint
-    move $scrambled $3 $startingpoint
+    move $zipfile "$2" "$startingpoint"
+    move $scrambled "$3" "$startingpoint"
 
   done
   cd "$startingpoint"
