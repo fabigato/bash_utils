@@ -8,17 +8,12 @@
 
 
 function fscramble { #takes a string and scrambles it according to a fixed mapping
-    result=$(extscram.sh -p "$1")
-    [[ $(realpath "$1" 2>/dev/null) != $(realpath "$result" 2>/dev/null) ]] && mkdir -p "$(dirname "$result")" ; mv "$1" "$result"
-    printf "$result\n"
+  result=$(~/repos/bash_utils/src/shell/extscram.sh -k "$1")
+  [[ $(realpath "$1" 2>/dev/null) != $(realpath "$result" 2>/dev/null) ]] && mkdir -p "$(dirname "$result")" ; mv "$1" "$result"
+  printf "$result\n"
 }
 
-function _main {
-  if [ -z "$1" ]
-  then
-      echo "No arguments supplied"
-      exit
-  fi
+function fscramble_recursive {
   fullname="$1"
 
   if [ -f "$fullname" ] #if argument is a file, scramble its name
@@ -32,6 +27,15 @@ function _main {
       # plus iterating on find's output is bad practice due to special
       # chars in names badly handled
   fi
+}
+
+function _main {
+  if [ -z "$1" ]
+  then
+      echo "No arguments supplied"
+      exit
+  fi
+  fscramble_recursive "$@"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

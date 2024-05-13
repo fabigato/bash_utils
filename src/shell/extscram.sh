@@ -23,11 +23,12 @@ function fscramble_whole_path {
 
 function fscramble_keep_path {
     local xpath="$(dirname "$1")" #xpath=${fullname%/*} not good in edge conditions, gives filename when path is empty
+    [[ "$xpath" == "." ]] && xpath="" || xpath="$xpath/"  # avoid prepending a "./" to output
     local xbase="$(basename "$1")" #xbase=${fullname##*/}
     local xfext=$([[ $xbase = *.* ]] && printf %s ".${xbase##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
     local xpref="${xbase%.*}"
     local scrambled="$(echo "$xpref" | scram.sh)"
-    extscram_result="$xpath/$scrambled$xfext"
+    extscram_result="$xpath$scrambled$xfext"
     # return the value with a printf. Funcion defined variables are not
     # visible if this script was called from outside
     printf "$extscram_result\n"
