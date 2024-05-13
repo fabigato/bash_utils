@@ -1,5 +1,5 @@
 Package: bashutils
-Version: 0.2.1
+Version: 0.2.2
 Maintainer: Fabian Guevara
 Architecture: all
 Description: misc bash scripts for file management

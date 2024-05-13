@@ -7,17 +7,17 @@
 #################################################################################################################
 
 function fscramble {
-    xbase="$(basename "$1")" #xbase=${fullname##*/}
-    xfext=$([[ $xbase = *.* ]] && printf %s ".${xbase##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
-    xpref="${xbase%.*}"
-    scrambled="$(echo "$xpref" | scram.sh)"
+    local xbase="$(basename "$1")" #xbase=${fullname##*/}
+    local xfext=$([[ $xbase = *.* ]] && printf %s ".${xbase##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
+    local xpref="${xbase%.*}"
+    local scrambled="$(echo "$xpref" | scram.sh)"
     printf "$scrambled$xfext\n"
 }
 
 function fscramble_whole_path {
-    xfext=$([[ $1 = *.* ]] && printf %s ".${1##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
-    xpref="${1%.*}"
-    scrambled="$(echo "$xpref" | scram.sh)"
+    local xfext=$([[ $1 = *.* ]] && printf %s ".${1##*.}" || printf '') #xfext=${xbase##*.} returns filename when no extension.
+    local xpref="${1%.*}"
+    local scrambled="$(echo "$xpref" | scram.sh)"
     printf "$scrambled$xfext\n"
 }
 
