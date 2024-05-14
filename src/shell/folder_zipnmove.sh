@@ -34,16 +34,15 @@ function _main {
 }
 #######actual script######
 function scramfolder_zip_and_move {
-    local startingpoint="$(pwd)"
-    scrambled=$(extscram.sh -k "$1")
-    [[ $(realpath "$1") != $(realpath "$scrambled") ]] && mv "$1" "$scrambled"  # mv only if scrambled name changed
-    scram_files.sh "$scrambled"
-    cd "$scrambled"
-    local current="$(pwd)"
-    local parent=$(basename "$current")
-    zipfile="$parent.zip"
-    zip -r -P "$4" "$startingpoint/$zipfile" .
-    cd "$startingpoint"
+  local startingpoint="$(pwd)"
+  scrambled=$(extscram.sh -k "$1")
+  scram_files.sh "$1"
+  cd "$scrambled"
+  local current="$(pwd)"
+  local parent=$(basename "$current")
+  zipfile="$parent.zip"
+  zip -r -P "$4" "$startingpoint/$zipfile" .
+  cd "$startingpoint"
 }
 
 function move {
