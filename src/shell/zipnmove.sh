@@ -38,6 +38,16 @@ function _main {
   zipnmove "$@" $password
 }
 
+function move {
+  # mv with a check for relative and absolute paths
+  # usage: move origin destination prefix
+  if [[ "$2" =~ ^"/" ]]; then
+    mv "$1" "$2"
+  else  # target is relative, prepend prefix
+    mv "$1" "$3/$2"
+  fi
+}
+
 #######actual script######
 function zipnmove {
   # usage: zipnmove targetfolder zip-dest original-dest password
@@ -53,9 +63,9 @@ function zipnmove {
       local filename="$(basename "$scrambled")"
       local filenamenoext="${filename%.*}"
       zip -P "$4" "$filenamenoext.zip" "$filename"
-      mv "$filenamenoext.zip" "$startingpoint/$2"
+      move "$filenamenoext.zip" "$2" "$startingpoint"
       scram_files.sh "$scrambled"
-      mv "$f" "$startingpoint/$3"
+      move "$f" "$3" "$startingpoint"
     fi
   done
   cd "$startingpoint"
