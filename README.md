@@ -26,8 +26,14 @@ dpkg -i bashutils.deb
 just call the respective command from a terminal
 
 # Testing
+## shell
 the shell scripts uses [shunit2](https://github.com/kward/shunit2?tab=readme-ov-file) 
 you can simply download the shunit2.sh file and put it in your PATH, but there's a convenient deb package for ubuntu:
 ```
 sudo apt-get install -y shunit2
+```
+
+You run the tests by running each specific test script, while located inside the src/shell/tests folder. For instance:
+```
+./test_extscram.sh
 ```
