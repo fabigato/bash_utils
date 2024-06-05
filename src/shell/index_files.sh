@@ -33,7 +33,7 @@ function add_to_index {
   do
     echo "checking $f"
     get_name_no_ext "$f"
-    name_in_index "$f" $3
+    name_in_index "$name_noext" $3
   done
 }
 
