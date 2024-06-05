@@ -1,10 +1,10 @@
 #!/bin/bash
 
-###############################################################################################
-# Checks all files and folder in a given path and checks if they're present in an index file. #
-# If not, it adds them at the top of the file with a postfix string and new line              #
-# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                                   #
-###############################################################################################
+########################################################################################
+# For eah file and folder in a given path, checks if they're present in an index file. #
+# If not, it adds them at the top of the file with a postfix string and new line       #
+# Author: ricardo.fabian.guevara@gmail.com (Fabián Guevara)                            #
+########################################################################################
 
 function _main {
   if [ -z "$1" ] || [ -z "$2" ]
