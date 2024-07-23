@@ -7,6 +7,9 @@ test_validext() {
   local target="./some/path/to/myfile.mp4"
   valid_ext "$target" "$extensions"
   assertTrue 'target file ext mp4 is valid' $?
+  local target="myfile.mp3"
+  valid_ext "$target" "$extensions"
+  assertFalse 'target file ext mp3 is not valid' $?
 }
 
 # Load shUnit2.

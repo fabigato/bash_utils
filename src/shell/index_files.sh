@@ -24,21 +24,26 @@ function _main {
 }
 
 function add_to_index {
-  target="$1"
+  local target="$1"
+  local index_file="$2"
+  local postfix="$3"
   if [ -z $4 ]
   then
-    list="mp4,mp3,m4a"
+    local extensions="mp4,mp3,m4a"
   else
-    list=$4
+    local extensions=$4
   fi
-
+  echo "we zijn in add_to_index met args $1 $2 $3 en $4"
   if [ -f "$target" ] #if argument is a file, scramble its name
   then
-      process_file "$target"
+      process_file "$target" "$index_file" "$postfix" "$extensions"
   else #if argument is a folder, scramble recursively inside it
       export -f process_file
-      # find "$target" -depth -type f -exec bash -c 'fscramble "{}"' \;
-      find "$target" -depth -exec bash -c 'process_file "{}" "$list"' \;
+      export -f valid_ext
+#      export "$index_file"
+#      export "$postfix"
+#      export "$extensions"
+      find "$target" -depth -exec bash -c 'process_file $1 $2 $3 $4' bash {} "$index_file" "$postfix" "$extensions" \;
       # find "$target" -depth | while read f is bad since the pipe means
       # there is an stdin for exscram.sh so it will read wrong args
       # plus iterating on find's output is bad practice due to special
@@ -55,11 +60,14 @@ function valid_ext {
 }
 
 function process_file {
+  echo "we zijn in process_file met args $@"
   local target=$1
-  echo pass
-#  if valid_ext
-#  get_name_no_ext "$target"
+  local extensions=$2
+  if valid_ext $target $extensions
+  then
+    get_name_no_ext "$target"
 #  name_in_index "$name_noext" $3
+  fi
 }
 
 function get_name_no_ext {
@@ -68,7 +76,8 @@ function get_name_no_ext {
 }
 
 function name_in_index {
-  local result="$(grep "^$1$3\$" "$2")"
+  local target="$1"
+  local result='$(grep "^$1$3\$" "$2")'
   echo "result $result"
 }
 
