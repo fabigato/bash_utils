@@ -40,9 +40,8 @@ function add_to_index {
   else #if argument is a folder, scramble recursively inside it
       export -f process_file
       export -f valid_ext
-#      export "$index_file"
-#      export "$postfix"
-#      export "$extensions"
+      export -f get_name_no_ext
+      export -f name_in_index
       find "$target" -depth -exec bash -c 'process_file $1 $2 $3 $4' bash {} "$index_file" "$postfix" "$extensions" \;
       # find "$target" -depth | while read f is bad since the pipe means
       # there is an stdin for exscram.sh so it will read wrong args
@@ -52,6 +51,7 @@ function add_to_index {
 }
 
 function valid_ext {
+  echo "we zijn in valid_ext met args $@"
   local target=$1
   local extensions=$2
   local target="$(basename "$target")"
@@ -62,23 +62,31 @@ function valid_ext {
 function process_file {
   echo "we zijn in process_file met args $@"
   local target=$1
-  local extensions=$2
+  local index_file="$2"
+  local postfix="$3"
+  local extensions=$4
   if valid_ext $target $extensions
   then
     get_name_no_ext "$target"
-#  name_in_index "$name_noext" $3
+    if ! name_in_index "$name_noext" "$index_file" "$postfix"
+    then
+      echo "writing $name_noext to $index_file"
+      echo -e "$name_noext$postfix\n$(cat "$index_file")" > "$index_file"
+    fi
   fi
 }
 
 function get_name_no_ext {
-    local xbase="$(basename "$1")"
-    name_noext="${xbase%.*}"
+  local target="$1"
+  local xbase="$(basename "$target")"
+  name_noext="${xbase%.*}"
 }
 
 function name_in_index {
   local target="$1"
-  local result='$(grep "^$1$3\$" "$2")'
-  echo "result $result"
+  local index_file="$2"
+  local postfix="$3"
+  grep "^$target$postfix\$" "$index_file"
 }
 
 function name_postfix_newline {
