@@ -33,7 +33,6 @@ function add_to_index {
   else
     local extensions=$4
   fi
-  echo "we zijn in add_to_index met args $1 $2 $3 en $4"
   if [ -f "$target" ] #if argument is a file, scramble its name
   then
       process_file "$target" "$index_file" "$postfix" "$extensions"
@@ -51,7 +50,6 @@ function add_to_index {
 }
 
 function valid_ext {
-  echo "we zijn in valid_ext met args $@"
   local target=$1
   local extensions=$2
   local target="$(basename "$target")"
@@ -60,7 +58,6 @@ function valid_ext {
 }
 
 function process_file {
-  echo "we zijn in process_file met args $@"
   local target=$1
   local index_file="$2"
   local postfix="$3"
