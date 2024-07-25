@@ -86,14 +86,6 @@ function name_in_index {
   grep "^$target$postfix\$" "$index_file"
 }
 
-function name_postfix_newline {
-  echo pass
-}
-
-function write_line {
-  echo pass
-}
-
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     _main "$@"
 fi
