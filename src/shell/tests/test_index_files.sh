@@ -5,7 +5,7 @@ setUp() {
   mkdir -p root/a/
   mkdir -p root/b/
   touch root/a/filea1.txt
-  touch root/a/filea2.doc
+  touch "root/a/filea 2.doc"
   touch root/b/fileb.jpg
   touch root/file.txt
   echo "filea1|||" > index_file.txt
@@ -28,7 +28,7 @@ test_validext() {
 
 test_integration_folder() {
   _main root index_file.txt "|||" "txt,doc"
-  local expected="filea2|||
+  local expected="filea 2|||
 file|||
 filea1|||"
   assertSame "$expected" "$(cat index_file.txt)"

@@ -41,7 +41,7 @@ function add_to_index {
       export -f valid_ext
       export -f get_name_no_ext
       export -f name_in_index
-      find "$target" -depth -exec bash -c 'process_file $1 $2 $3 $4' bash {} "$index_file" "$postfix" "$extensions" \;
+      find "$target" -depth -exec bash -c 'process_file "$1" "$2" "$3" $4' bash {} "$index_file" "$postfix" "$extensions" \;
       # find "$target" -depth | while read f is bad since the pipe means
       # there is an stdin for exscram.sh so it will read wrong args
       # plus iterating on find's output is bad practice due to special
@@ -50,7 +50,7 @@ function add_to_index {
 }
 
 function valid_ext {
-  local target=$1
+  local target="$1"
   local extensions=$2
   local target="$(basename "$target")"
   local ext=$([[ $target = *.* ]] && printf %s "${target##*.}" || printf '')
@@ -58,11 +58,11 @@ function valid_ext {
 }
 
 function process_file {
-  local target=$1
+  local target="$1"
   local index_file="$2"
   local postfix="$3"
   local extensions=$4
-  if valid_ext $target $extensions
+  if valid_ext "$target" $extensions
   then
     get_name_no_ext "$target"
     if ! name_in_index "$name_noext" "$index_file" "$postfix"
