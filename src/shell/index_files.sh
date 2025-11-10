@@ -41,7 +41,7 @@ function add_to_index {
       export -f valid_ext
       export -f get_name_no_ext
       export -f name_in_index
-      find "$target" -depth -exec bash -c 'process_file "$1" "$2" "$3" $4' bash {} "$index_file" "$postfix" "$extensions" \;
+      find "$target" -depth -not -name '._*' -exec bash -c 'process_file "$1" "$2" "$3" $4' bash {} "$index_file" "$postfix" "$extensions" \;
       # find "$target" -depth | while read f is bad since the pipe means
       # there is an stdin for exscram.sh so it will read wrong args
       # plus iterating on find's output is bad practice due to special
