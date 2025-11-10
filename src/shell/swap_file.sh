@@ -16,12 +16,16 @@ else
 		exit 1
 	fi
 fi
-# next line doesn't work in Mac due to outdated bash version which doesn't include read array
-# readarray -t lines < "$file"  # read whole file in memory, otherwise you can´t update line by line while reading
-IFS=
-while read line; do
-    lines+=($line)
-done < "$file"
+
+if [ "$(uname)" = "Darwin" ]; then
+  IFS=
+  while read line; do
+      lines+=($line)
+  done < "$file"
+else
+  # next line doesn't work in Mac due to outdated bash version which doesn't include read array
+  readarray -t lines < "$file"  # read whole file in memory, otherwise you can´t update line by line while reading
+fi
 swapped_lines=()
 for line in "${lines[@]}"; do
     swapped_lines+=( "$(echo "$line" | scram.sh)" )
