@@ -34,7 +34,7 @@ filea1|||"
   assertSame "$expected" "$(cat index_file.txt)"
 }
 
-test_integration_folder() {
+test_integration_file() {
   _main root/file.txt index_file.txt "|||" "txt,doc"
   local expected="file|||
 filea1|||"
