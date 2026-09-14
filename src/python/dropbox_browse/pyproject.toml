@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.7"
 dropbox = "^11.36.2"
 tqdm = "^4.66.2"
+setuptools = {version = "^80.9", python = ">=3.9"}
 
 
 [build-system]

@@ -1,8 +1,9 @@
 import argparse
 from dropbox.dropbox_client import Dropbox
-from os.path import splitext, basename, join, split
+from os.path import splitext, basename, join, split, exists
 from tqdm import tqdm
-from os import environ
+from os import environ, replace, remove
+
 
 with open(environ['DROPBOX_DEV_KEY_FILE'], "r+") as dev_key_file:
     # Reading from a file
@@ -52,11 +53,25 @@ def filter_files(files, filters):
 def download(files, destination):
     bar = tqdm(files)
     for file in bar:
-        with open(join(destination, translate_name(basename(file))), "wb") as fh:
-            metadata, res = db_con.files_download(file)
-            # bar.set_description("downloading {:.2f} MB file {}".format(metadata.size/1000000, translate_name(basename(file))))
-            tqdm.write("downloading {:.2f} MB file {}".format(metadata.size/1000000, translate_name(basename(file))))
-            fh.write(res.content)
+        local_name = translate_name(basename(file))
+        local_path = join(destination, local_name)
+        if exists(local_path):
+            tqdm.write("skipping already downloaded file {}".format(local_name))
+            continue
+        # download to a .part file and only move it into place once complete, so an interrupted run
+        # doesn't leave a truncated file that the check above would then skip
+        partial_path = local_path + ".part"
+        metadata, res = db_con.files_download(file)
+        # bar.set_description("downloading {:.2f} MB file {}".format(metadata.size/1000000, translate_name(basename(file))))
+        tqdm.write("downloading {:.2f} MB file {}".format(metadata.size/1000000, local_name))
+        try:
+            with open(partial_path, "wb") as fh:
+                fh.write(res.content)
+            replace(partial_path, local_path)
+        except BaseException:
+            if exists(partial_path):
+                remove(partial_path)
+            raise
 
 
 def main():
