@@ -5,9 +5,12 @@ from tqdm import tqdm
 from os import environ, replace, remove
 
 
+# DROPBOX_DEV_KEY_FILE should point to a file holding a Dropbox access token,
+# e.g. ~/repos/bash_utils/dropbox_key.txt (gitignored). Generate one at
+# https://www.dropbox.com/developers/apps
 with open(environ['DROPBOX_DEV_KEY_FILE'], "r+") as dev_key_file:
     # Reading from a file
-    dev_key = dev_key_file.readline()
+    dev_key = dev_key_file.readline().strip()
 db_con = Dropbox(dev_key)
 
 SCRAM_CHARS = environ['SCRAM_CHARS']
